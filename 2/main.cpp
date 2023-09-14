@@ -149,10 +149,9 @@ bool isValidExpression(string expression) {
         else if (ch == ')') {
             if (!brackets.empty() && brackets.top() == '(') {
                 brackets.pop(); // Если символ ')' и верхняя скобка в стеке - '(', удаляем верхнюю скобку из стека
-                // 
             }
             else {
-                return false; // Иначе выражение неверное
+                return false;
             }
         }
     }
