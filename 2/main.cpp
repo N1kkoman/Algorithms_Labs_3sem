@@ -63,7 +63,7 @@ double evaluateExpression(string expression) {
         else if (isdigit(ch)) {
             double num = 0;
             while (i < expression.length() && isdigit(expression[i])) {
-                num = num * 10 + expression[i] - '0';
+                num = num * 10 + expression[i] - '0'; // склейка числа из цифр
                 i++;
             }
             i--;
