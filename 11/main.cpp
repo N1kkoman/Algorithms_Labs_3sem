@@ -3,28 +3,27 @@
 
 using namespace std;
 
+
+int partition(vector<int>& arr, int left, int right){
+    int pivot = arr[right]; // выбираем опорный элемент
+    int i = left - 1; // индекс для элементов меньше опорного
+    for (int j = left; j <= right - 1; j++){
+        if (arr[j] < pivot){
+            i++;
+            swap(arr[i], arr[j]);
+        }
+    }
+    swap(arr[i + 1], arr[right]); // перемещаем опорный элемент на правильную позицию
+    return (i + 1); // возвращаем индекс опорного элемента
+}
 // Функция, которая сортирует последовательность чисел методом быстрой сортировки
 void quick_sort(vector<int>& arr, int left, int right) {
-    if (left >= right) { // базовый случай: если левая граница больше или равна правой, то массив уже отсортирован
-        return;
+    if (left < right){
+        int pivot = partition(arr, left, right); // получаем индекс опорного элемента
+
+        quick_sort(arr, left, pivot - 1); // рекурсивно сортируем левую и правую часть массива
+        quick_sort(arr, pivot + 1, right);
     }
-    int pivot = arr[(left + right) / 2]; // выбираем опорный элемент как средний элемент в диапазоне
-    int i = left, j = right; // индексы для прохода по массиву в разных направлениях
-    while (i <= j) { // цикл разделения диапазона на две части
-        while (arr[i] < pivot) { // ищем элементы, которые нужно переставить в левую часть
-            i++;
-        }
-        while (arr[j] > pivot) { // ищем элементы, которые нужно переставить в правую часть
-            j--;
-        }
-        if (i <= j) { // меняем элементы местами
-            swap(arr[i], arr[j]);
-            i++; 
-            j--; 
-        }
-    }
-    quick_sort(arr, left, j);
-    quick_sort(arr, i, right); 
 }
 
 int main() {
