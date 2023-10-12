@@ -1,10 +1,1 @@
-Hello, world!
-This is a sample text file.
-It contains some text in English language.
-The purpose of this file is to test the hash table program.
-Let's see how it works!
-Привет, мир!
-Это образец текстового файла.
-Он содержит некоторый текст на русском языке.
-Цель этого файла - проверить программу хеш-таблицы.
-Посмотрим, как она работает!
+The United States is considered to be one of the countries with the largest territories. It is situated in North America, an amazing continent with its beautiful nature and diverse climatic zones. The country’s landscape includes both high mountains and flat prairies. The weather conditions range from arctic cold in the northern parts to tropical heat in the southern parts. The main water bodies on the territory of the USA include such rivers as Mississippi, Missouri, the Rio Grande. These rivers provide a sufficient amount of drinking water to supply the nation. They also serve as vital sources of irrigation for farming.

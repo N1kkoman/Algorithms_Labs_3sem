@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <vector>
 
 using namespace std;
@@ -33,7 +33,7 @@ int main() {
     while (cin >> x) {
         arr.push_back(x);
         if (cin.get() == '\n') {
-            break;
+            break;  
         }
     }
 
