@@ -8,8 +8,8 @@ int partition(vector<int>& arr, int left, int right){
     int pivot = arr[right]; // выбираем опорный элемент
     int i = left - 1; // индекс для элементов меньше опорного
     for (int j = left; j <= right - 1; j++){
-        if (arr[j] < pivot){
-            i++;
+        if (arr[j] < pivot){ // делим элементы вектора на две части: 
+            i++;             // слева будут находиться элементы меньше опорного, а справа - элементы больше опорного
             swap(arr[i], arr[j]);
         }
     }
