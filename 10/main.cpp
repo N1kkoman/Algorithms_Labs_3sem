@@ -1,4 +1,4 @@
-﻿#include <iostream>
+#include <iostream>
 #include <vector>
 
 using namespace std;
@@ -28,9 +28,9 @@ void merge_sort(vector<int>& arr, int left, int right) {
     while (j <= right) { // если остались непройденные элементы в правой половине
         temp[k++] = arr[j++]; // копируем их во временный вектор 
     }
-    for (int i = left; i <= right; i++) { // копируем отсортированные элементы из временного вектора обратно в исходный массив
-        arr[i] = temp[i - left]; // вычитаем из индекса i левую границу массива, чтобы получить соответствующий индекс во временном векторе temp.
-    }
+
+    std::copy(temp.begin(), temp.end(), arr.begin() + left); // копирует элементы из временного вектора temp 
+                                                             // в исходный массив arr, начиная с позиции left (левая граница текущего сегмента массива, который сортируется)
 }
 
 
@@ -55,7 +55,4 @@ int main() {
 
     return 0;
 }
-
-
-
 

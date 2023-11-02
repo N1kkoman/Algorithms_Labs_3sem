@@ -12,3 +12,4 @@ set(CMAKE_CXX_STANDARD_REQUIRED TRUE)
 
 add_executable("${PROJECT_NAME}" main.cpp)	# добавить исполняемый файл
 								 
+file(COPY "input.txt" DESTINATION "/")
