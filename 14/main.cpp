@@ -1,48 +1,58 @@
 ﻿#include <iostream>
 #include <fstream>
-#include <unordered_map>
-#include <list>
+#include <vector>
 #include <string>
 #include <sstream>
 
-unsigned int myHash(const std::string& str) {
-    unsigned int hash = 0;
-    for (char ch : str) {
-        hash = hash * 31 + ch; // Используем простую хеш-функцию, основанную на умножении на простое число и добавлении кода символа
-    }
-    return hash;
+// Функция для добавления значения в таблицу
+void putInTable(std::vector<std::vector<std::string>>& table, int myhash, std::string value) {
+    table[myhash].push_back(value);
 }
 
 int main() {
-    std::unordered_map<std::string, std::list<std::string>> hashTable; // Создаем пустую хеш-таблицу с использованием списков
-    std::ifstream inputFile("input.txt"); // Открываем файл для чтения
-    std::ofstream outputFile("output.txt"); // Открываем файл для записи
+    std::ifstream file("input.txt");
+    std::string text((std::istreambuf_iterator<char>(file)), std::istreambuf_iterator<char>());
+    file.close();
 
-    if (inputFile.is_open() && outputFile.is_open()) { // Проверяем, что файлы открыты успешно
-        std::string line;
-        while (std::getline(inputFile, line)) { // Читаем файл построчно
-            std::istringstream iss(line);
-            std::string word;
-            while (iss >> word) { // Разбиваем строку на слова
-                size_t hashValue = std::hash<std::string>{}(word); // Вычисляем хеш-значение для слова
-                hashTable[std::to_string(hashValue)].push_back(word); // Добавляем элемент в хеш-таблицу с использованием списка
-            }
-        }
-
-        for (auto const& [key, value] : hashTable) { // Записываем хеш-таблицу в файл
-            outputFile << key << " : ";
-            for (const auto& item : value) {
-                outputFile << item << " ";
-            }
-            outputFile << "\n";
-        }
-
-        inputFile.close(); // Закрываем файлы
-        outputFile.close();
+    std::vector<std::string> words;
+    std::stringstream ss(text);
+    std::string word;
+    // Разделение текста на отдельные слова
+    while (ss >> word) {
+        words.push_back(word);
     }
-    else {
-        std::cout << "Unable to open input or output file\n"; // Выводим сообщение об ошибке, если файлы не открыты
+
+    // Создание таблицы с двойным размером от количества слов
+    std::vector<std::vector<std::string>> table(words.size() * 2);
+    for (const std::string& word : words) {
+        int temp_sum = 0;
+        for (char c : word) {
+            // Если символ является знаком препинания, добавляем его в таблицу
+            if (c == '!' || c == '.' || c == ',' || c == '?' || c == ';' || c == '\'') {
+                int myhash = c % table.size();
+                putInTable(table, myhash, std::string(1, c));
+                // Удаляем знак препинания из слова
+                std::string word = word.substr(0, word.length() - 1);
+            }
+            temp_sum += static_cast<int>(c);
+        }
+        // Вычисление хэша для слова и добавление его в таблицу
+        int myhash = temp_sum % table.size();
+        putInTable(table, myhash, word);
     }
+
+    std::ofstream output("table.txt");
+    for (int i = 0; i < table.size(); ++i) {
+        std::string temp_string = std::to_string(i) + " : ";
+        // Формирование строки с элементами таблицы
+        for (const std::string& value : table[i]) {
+            temp_string += value + " ";
+        }
+        temp_string += "\n";
+        // Запись строки в файл
+        output << temp_string;
+    }
+    output.close();
 
     return 0;
 }

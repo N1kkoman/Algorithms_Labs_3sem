@@ -1,10 +1,2 @@
-Hello, world!
-This is a sample text file.
-It contains some text in English language.
-The purpose of this file is to test the hash table program.
-Let's see how it works!
-Привет, мир!
-Это образец текстового файла.
-Он содержит некоторый текст на русском языке.
-Цель этого файла - проверить программу хеш-таблицы.
-Посмотрим, как она работает!
+Как и во многих горных городах, социальный климат в раннем Сан-Франциско был нестабильный. Эта обстановка вызвала большой резонанс в сенате США, а серия законов Компромисс 1850 разожгла распри на почве проблемы «жестокого труда».
+In 1821, the Californias were ceded to Mexico by Spain. The extensive California mission system gradually lost its influence during the period of Mexican rule.

@@ -1,46 +1,75 @@
 ﻿#include <iostream>
-#include <fstream>
-#include <unordered_map>
-#include <list>
-#include <sstream>
+#include <fstream> 
+#include <vector>
 #include <string>
-#include <cctype>
+
+// Функция для добавления элемента в хеш-таблицу
+bool putInTable(int myhash, const std::string& value, std::vector<std::string>& table) {
+    // Проходим по списку элементов с заданным хеш-значением
+    for (int i = myhash; i < table.size(); ++i) {
+        // Если в списке есть свободное место, добавляем элемент
+        if (table[i].empty()) {
+            table[i] = value;
+            return true;
+        }
+    }
+    // Если в списке нет свободного места, возвращаем false
+    return false;
+}
 
 int main() {
-    std::unordered_map<std::string, std::list<std::string>> hashTable; // Создаем пустую хеш-таблицу с использованием списков
-    std::ifstream inputFile("input.txt"); // Открываем файл для чтения
-    std::ofstream outputFile("output.txt"); // Открываем файл для записи
-
-    if (inputFile.is_open() && outputFile.is_open()) { // Проверяем, что файлы открыты успешно
-        std::string line;
-        while (std::getline(inputFile, line)) { // Читаем файл построчно
-            std::string word;
-            std::istringstream iss(line);
-            while (iss >> word) { // Разбиваем строку на слова
-                // Очищаем слово от знаков препинания
-                word.erase(std::remove_if(word.begin(), word.end(), [](unsigned char c) { return std::ispunct(c); }), word.end());
-
-                if (!word.empty()) { // Если слово не пустое, то добавляем его в хеш-таблицу
-                    unsigned int hashValue = std::hash<std::string>{}(word); // Вычисляем хеш-значение для слова
-                    hashTable[std::to_string(hashValue)].push_back(word); // Добавляем элемент в хеш-таблицу с использованием списка
-                }
-            }
-        }
-
-        for (auto const& [key, value] : hashTable) { // Записываем хеш-таблицу в файл
-            outputFile << key << " : ";
-            for (const auto& item : value) {
-                outputFile << item << " ";
-            }
-            outputFile << "\n";
-        }
-
-        inputFile.close(); // Закрываем файлы
-        outputFile.close();
-    }
-    else {
-        std::cout << "Unable to open input or output file\n"; // Выводим сообщение об ошибке, если файлы не открыты
+    std::setlocale(LC_ALL, "Russian");
+    std::ifstream inputFile("input.txt");
+    if (!inputFile.is_open()) {
+        std::cerr << "Не удалось открыть входной файл 'example.txt'" << std::endl;
+        return 1;
     }
 
-    return 0;
+    std::vector<std::string> words; // Создаем вектор для хранения слов
+    std::string word;
+    while (inputFile >> word) {
+        // Удаляем пунктуацию из слова
+        std::string cleanedWord;
+        for (char c : word) {
+            if (c != '!' && c != '.' && c != ',' && c != '?' && c != ';' && c != '\'') {
+                cleanedWord += c;
+            }
+        }
+        words.push_back(cleanedWord); // Добавляем очищенное слово в вектор слов
+    }
+    inputFile.close(); // Закрываем файл после чтения
+
+    std::vector<std::string> table(words.size() * 2); // Создаем хеш-таблицу
+
+    for (const std::string& word : words) {
+        int tempSum = 0;
+        for (char c : word) {
+            tempSum += static_cast<int>(c); // Считаем сумму ASCII-кодов символов в слове
+        }
+
+        int myhash = tempSum % table.size(); // Вычисляем хеш-значение для слова
+
+        // Добавляем слово в хеш-таблицу с помощью функции putInTable()
+        if (!putInTable(myhash, word, table)) {
+            putInTable(myhash, word, table);
+        }
+    }
+
+
+    std::ofstream outputFile("table.txt");
+    if (!outputFile.is_open()) {
+        std::cerr << "Не удалось открыть выходной файл 'table.txt'" << std::endl;
+        return 1;
+    }
+
+    // Выводим таблицу в файл
+    for (int i = 0; i < table.size(); ++i) {
+        outputFile << i << " : " << table[i] << "\n";
+    }
+
+    outputFile.close(); 
+
+    std::cout << "Таблица записана в файл 'table.txt'" << std::endl;
+
+    return 0; 
 }
